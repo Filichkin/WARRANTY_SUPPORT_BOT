@@ -7,14 +7,16 @@ API_KEY = os.getenv('MISTRAL_TOKEN')
 
 MODEL = 'mistral-small-latest'
 
+PATH = './data/warranty_policy.pdf'
+
 
 def run_mistral(user_message):
     client = Mistral(api_key=API_KEY)
 
     uploaded_pdf = client.files.upload(
         file={
-            'file_name': 're_test.pdf',
-            'content': open('./re_test.pdf', 'rb'),
+            'file_name': 'warranty_policy.pdf',
+            'content': open(PATH, 'rb'),
             },
         purpose='ocr'
     )
@@ -26,7 +28,7 @@ def run_mistral(user_message):
             'content': [
                 {
                     'type': 'text',
-                    'text': 'Сделай небольшой тренинг из 20 предложений'
+                    'text': user_message
                 },
                 {
                     'type': 'document_url',
@@ -42,3 +44,6 @@ def run_mistral(user_message):
     )
     return chat_response.choices[0].message.content
 
+
+if __name__ == '__main__':
+    print(run_mistral('Как мне вернуть автомобиль'))
