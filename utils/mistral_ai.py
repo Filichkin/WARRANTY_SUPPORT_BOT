@@ -9,18 +9,22 @@ API_KEY = os.getenv('MISTRAL_TOKEN')
 
 MODEL = 'mistral-small-latest'
 
-PATH = './data/dealer_agreement.pdf'
+PATH = './data/warranty_policy.pdf'
 
-messages = []
-user_message_content = [{"type": "text", "text": user_message}]
+SYSTEM = '''
+Ты AI ассистент для ответа на вопросы из документов
+загруженных по ссылкам.
+Ты должен отвечать на вопросы и брать информацию
+только из загруженных документов.
+'''
 
 
 def run_mistral(user_message):
     client = Mistral(api_key=API_KEY)
-    
+
     uploaded_pdf = client.files.upload(
         file={
-            'file_name': 'dealer_agreement.pdf',
+            'file_name': 'warranty_policy.pdf',
             'content': open(PATH, 'rb'),
             },
         purpose='ocr'
@@ -30,6 +34,10 @@ def run_mistral(user_message):
 
     messages = [
         {
+            'role': 'system',
+            'content': SYSTEM
+        },
+        {
             'role': 'user',
             'content': [
                 {
@@ -38,14 +46,8 @@ def run_mistral(user_message):
                 },
                 {
                     'type': 'document_url',
-                    # "document_url": "https://arxiv.org/pdf/1805.04770"
                     'document_url': signed_url.url
-                },
-                {
-                    'type': 'document_url',
-                    # "document_url": "https://arxiv.org/pdf/1805.04770"
-                    'document_url': signed_url.url
-                },
+                }
             ]
         }
     ]
@@ -57,4 +59,4 @@ def run_mistral(user_message):
 
 
 if __name__ == '__main__':
-    print(run_mistral('Опиши основные термины дилерского договора'))
+    print(run_mistral('Опиши треборвания к пакету документов для типа W'))
