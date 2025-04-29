@@ -3,21 +3,25 @@ import os
 from mistralai import Mistral
 
 
+DATABASE = os.listdir('./data')
+
 API_KEY = os.getenv('MISTRAL_TOKEN')
 
 MODEL = 'mistral-small-latest'
 
-PATH = './data/warranty_policy.pdf'
-PATH_ = './data/dealer_agreement.pdf'
+PATH = './data/dealer_agreement.pdf'
+
+messages = []
+user_message_content = [{"type": "text", "text": user_message}]
 
 
 def run_mistral(user_message):
     client = Mistral(api_key=API_KEY)
-
+    
     uploaded_pdf = client.files.upload(
         file={
             'file_name': 'dealer_agreement.pdf',
-            'content': open(PATH_, 'rb'),
+            'content': open(PATH, 'rb'),
             },
         purpose='ocr'
     )
@@ -31,6 +35,11 @@ def run_mistral(user_message):
                 {
                     'type': 'text',
                     'text': user_message
+                },
+                {
+                    'type': 'document_url',
+                    # "document_url": "https://arxiv.org/pdf/1805.04770"
+                    'document_url': signed_url.url
                 },
                 {
                     'type': 'document_url',
