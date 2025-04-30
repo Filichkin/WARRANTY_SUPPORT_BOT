@@ -3,9 +3,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from loguru import logger
 import torch
 
-
-CHROMA_PATH = './warranty_chroma_db'
-COLLECTION_NAME = 'warranty_data'
+from config import settings
 
 
 def connect_to_chroma():
@@ -23,9 +21,9 @@ def connect_to_chroma():
         )
 
         chroma_db = Chroma(
-            persist_directory=CHROMA_PATH,
+            persist_directory=settings.CHROMA_PATH,
             embedding_function=embeddings,
-            collection_name=COLLECTION_NAME,
+            collection_name=settings.COLLECTION_NAME,
         )
 
         logger.success('Успешное подключение к базе Chroma')
@@ -69,5 +67,8 @@ def search_products(query: str, metadata_filter: dict = None, k: int = 4):
         raise
 
 
-for i in search_products(query='Требования к пакету документов'):
-    print(i['metadata']['source'])
+for i in search_products(
+    query='Правила подачи гарантийных требований с типом D'
+):
+    print(i['text'])
+    print(i['metadata']['file_name'])

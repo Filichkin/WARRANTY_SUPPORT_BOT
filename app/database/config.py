@@ -1,4 +1,6 @@
 import os
+
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,6 +13,13 @@ class Config(BaseSettings):
     CHUNK_OVERLAP: int = 50
     LM_MODEL_NAME: str = (
         'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
+        )
+    DEEPSEEK_MODEL_NAME: str = 'deepseek-chat'
+    MISTRAL_MODEL_NAME: str = 'mistral-small-latest'
+    DEEPSEEK_API_KEY: SecretStr
+    MISTRAL_TOKEN: SecretStr
+    model_config = SettingsConfigDict(
+        env_file='/Users/alexeyfilichkin/MainDev/WARRANTY_SUPPORT_BOT/.env'
         )
 
 
