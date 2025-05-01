@@ -19,12 +19,13 @@ def normalize_text(text: str) -> str:
     удаление знаков препинания и специальных символов.
     """
     if not isinstance(text, str):
-        raise ValueError("Входной текст должен быть строкой")
-
+        raise ValueError('Входной текст должен быть строкой')
+    text = re.sub(r'[^0-9a-zA-Zа-яА-Я]', ' ', text)
     # Удаление знаков препинания
     text = PUNCTUATION_PATTERN.sub(' ', text)
     # Удаление переносов строк и лишних пробелов
     text = WHITESPACE_PATTERN.sub(' ', text)
+
     # Приведение к нижнему регистру
     return text.lower().strip()
 

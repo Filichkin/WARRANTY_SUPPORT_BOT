@@ -33,7 +33,7 @@ def connect_to_chroma():
         raise
 
 
-def search_products(query: str, metadata_filter: dict = None, k: int = 4):
+def search_products(query: str, metadata_filter: dict = None, k: int = 1):
     """
     Поиск страниц по запросу и метаданным.
 
@@ -68,7 +68,8 @@ def search_products(query: str, metadata_filter: dict = None, k: int = 4):
 
 
 for i in search_products(
-    query='Правила подачи гарантийных требований с типом D'
+    query='Обязанности инженера по гарантии'
 ):
     print(i['text'])
     print(i['metadata']['file_name'])
+    print(i['similarity_score'])
