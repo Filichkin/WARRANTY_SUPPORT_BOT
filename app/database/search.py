@@ -3,7 +3,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from loguru import logger
 import torch
 
-from config import settings
+from app.config import settings
 
 
 def connect_to_chroma():

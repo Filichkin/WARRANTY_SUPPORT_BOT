@@ -18,6 +18,8 @@ class Config(BaseSettings):
     MISTRAL_MODEL_NAME: str = 'mistral-small-latest'
     DEEPSEEK_API_KEY: SecretStr
     MISTRAL_TOKEN: SecretStr
+    ALGORITHM: str
+    SECRET_KEY: str
     model_config = SettingsConfigDict(
         env_file='/Users/alexeyfilichkin/MainDev/WARRANTY_SUPPORT_BOT/.env'
         )
