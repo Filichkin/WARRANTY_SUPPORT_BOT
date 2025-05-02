@@ -20,9 +20,36 @@ class Config(BaseSettings):
     MISTRAL_TOKEN: SecretStr
     ALGORITHM: str
     SECRET_KEY: str
+    JWT_REFRESH_SECRET_KEY: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7
+    DATABASE_PORT: int
+    POSTGRES_PASSWORD: str
+    POSTGRES_USER: str
+    POSTGRES_DB: str
+    POSTGRES_HOST: str
+
     model_config = SettingsConfigDict(
         env_file='/Users/alexeyfilichkin/MainDev/WARRANTY_SUPPORT_BOT/.env'
         )
 
 
 settings = Config()
+
+
+def get_db_url():
+    return (f'postgresql+asyncpg://{settings.POSTGRES_USER}:'
+            f'{settings.POSTGRES_PASSWORD}@'
+            f'{settings.POSTGRES_HOST}:{settings.DATABASE_PORT}/'
+            f'{settings.POSTGRES_DB}'
+            )
+
+
+def get_auth_data():
+    return {
+        'secret_key': settings.SECRET_KEY,
+        'jwt_refresh_secret_key': settings.JWT_REFRESH_SECRET_KEY,
+        'algorithm': settings.ALGORITHM,
+        'acces_token_expire_minutes': settings.ACCESS_TOKEN_EXPIRE_MINUTES,
+        'refresh_token_expire_minutes': settings.REFRESH_TOKEN_EXPIRE_MINUTES
+        }
