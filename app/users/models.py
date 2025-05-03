@@ -8,6 +8,7 @@ class User(Base):
     phone_number: Mapped[str_uniq]
     first_name: Mapped[str]
     last_name: Mapped[str]
+    dealer_code: Mapped[str]
     email: Mapped[str_uniq]
     password: Mapped[str]
 

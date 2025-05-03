@@ -30,6 +30,10 @@ class SchemaUserRegister(BaseModel):
         max_length=50,
         description='Фамилия, от 2 до 50 символов'
         )
+    dealer_code: str = Field(
+        ...,
+        description='Код дилера, состоящий из 5 цифр'
+        )
 
     @field_validator('phone_number')
     @classmethod
@@ -38,6 +42,15 @@ class SchemaUserRegister(BaseModel):
             raise ValueError(
                 'Номер телефона должен начинаться с "+"'
                 ' и содержать от 1 до 15 цифр'
+            )
+        return value
+
+    @field_validator('dealer_code')
+    @classmethod
+    def validate_dealer_code(cls, value):
+        if not re.match(r'^\d{5}$', value):
+            raise ValueError(
+                'Код дилера должен состоять из 5 цифр'
             )
         return value
 
@@ -63,5 +76,6 @@ class SchemaUserRead(BaseModel):
     id: int
     first_name: str
     last_name: str
+    dealer_code: str
     is_user: bool
     is_super_admin: bool

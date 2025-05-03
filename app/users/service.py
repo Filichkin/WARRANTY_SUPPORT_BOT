@@ -13,8 +13,9 @@ class UserService:
             id=user_data.id,
             first_name=user_data.first_name,
             last_name=user_data.last_name,
+            dealer_code=user_data.dealer_code,
             is_user=user_data.is_user,
-            is_employe=user_data.is_super_admin,
+            is_super_admin=user_data.is_super_admin,
         )
 
     @staticmethod
