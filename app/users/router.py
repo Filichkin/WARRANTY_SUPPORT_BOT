@@ -99,7 +99,7 @@ async def get_me(user_data: User = Depends(get_current_user)):
     return user_data
 
 
-@router.get('/me/update', response_model=SchemaUserRead)
+@router.post('/me/update', response_model=SchemaUserRead)
 async def update_me(
     user_data: User = Depends(get_current_user),
     data: SchemaUserDataUpdate = Depends(SchemaUserDataUpdate),
