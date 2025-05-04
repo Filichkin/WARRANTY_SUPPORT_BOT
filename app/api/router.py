@@ -7,7 +7,7 @@ from app.chroma_client.chroma_store import ChromaVectorStore, get_vectorstore
 from app.users.dependencies import get_current_user
 
 
-router = APIRouter(prefix='/ai_agent', tags=['AI_agent'])
+router = APIRouter(prefix='/api', tags=['AI_agent'])
 
 
 @router.post('/ask')
