@@ -15,13 +15,13 @@ class ChatWithAI:
     с возможностью потокового вывода ответов.
     """
 
-    def __init__(self, provider: Literal['deepseek', 'mistral'] = 'deepseek'):
+    def __init__(self, provider: Literal['deepseek', 'mistral'] = 'mistral'):
         """
         Инициализирует экземпляр класса с выбранным провайдером LLM.
 
         Args:
             provider (str):
-            Провайдер языковой модели ('deepseek' или 'chatgpt')
+            Провайдер языковой модели ('deepseek' или 'mistral')
 
         Raises:
             ValueError: Если указан неподдерживаемый провайдер

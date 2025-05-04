@@ -36,8 +36,6 @@ class Config(BaseSettings):
 
 settings = Config()
 
-print(settings.POSTGRES_DB)
-
 
 def get_db_url():
     return (f'postgresql+asyncpg://{settings.POSTGRES_USER}:'

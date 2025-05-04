@@ -34,7 +34,6 @@ class ChromaVectorStore:
                 model_kwargs={'device': device},
                 encode_kwargs={'normalize_embeddings': True},
             )
-
             # Инициализируем соединение с базой данных Chroma
             self._store = Chroma(
                 persist_directory=settings.CHROMA_PATH,
@@ -107,3 +106,10 @@ class ChromaVectorStore:
         # но в будущем может понадобиться
         # self._store.close() или подобный метод
         pass
+
+
+chroma_vectorstore = ChromaVectorStore()
+
+
+def get_vectorstore() -> ChromaVectorStore:
+    return chroma_vectorstore

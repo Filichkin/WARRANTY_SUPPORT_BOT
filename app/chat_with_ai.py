@@ -7,7 +7,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from loguru import logger
 import torch
 
-from app.config import settings
+from config import settings
 
 
 class ChatWithAI:
