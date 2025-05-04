@@ -66,7 +66,11 @@ async def auth_user(response: Response, user_data: SchemaUserAuth):
         value=access_token,
         httponly=True
         )
-    return {'access_token': access_token, 'refresh_token': refresh_token}
+    return {
+        'message': 'Logged in',
+        'access_token': access_token,
+        'refresh_token': refresh_token
+        }
 
 
 @router.post('/refresh', summary='Refresh Token')

@@ -4,6 +4,7 @@ from loguru import logger
 import torch
 
 from app.config import settings
+from app.constants import SEARCH_COUNT
 
 
 class ChromaVectorStore:
@@ -55,7 +56,7 @@ class ChromaVectorStore:
             self,
             query: str,
             with_score: bool,
-            k: int = 10
+            k: int = SEARCH_COUNT
     ):
         """
         Асинхронный метод для поиска похожих документов в базе данных Chroma.

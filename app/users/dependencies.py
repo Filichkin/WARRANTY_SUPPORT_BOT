@@ -54,8 +54,9 @@ async def get_current_user(token: str = Depends(get_token)):
     return user
 
 
-async def get_optional_current_user(token: str = Depends(get_token)):
+async def get_optional_current_user(request: Request):
     try:
+        token = request.cookies.get('users_access_token')
         auth_data = get_auth_data()
         payload = jwt.decode(
             token,

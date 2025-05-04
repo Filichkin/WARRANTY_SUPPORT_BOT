@@ -4,6 +4,7 @@ from fastapi.responses import StreamingResponse
 from app.api.schemas import AskResponse, AskWithAIResponse
 from app.chroma_client.ai_store import ChatWithAI
 from app.chroma_client.chroma_store import ChromaVectorStore, get_vectorstore
+from app.constants import SEARCH_COUNT
 from app.users.dependencies import get_current_user
 
 
@@ -19,7 +20,7 @@ async def ask(
     results = await vectorstore.asimilarity_search(
         query=query.response,
         with_score=True,
-        k=3
+        k=SEARCH_COUNT
     )
     formatted_results = []
     for doc, score in results:
@@ -38,7 +39,7 @@ async def ask_with_ai(
     user_id: int = Depends(get_current_user),
 ):
     results = await vectorstore.asimilarity_search(
-        query=query.response, with_score=True, k=3
+        query=query.response, with_score=True, k=SEARCH_COUNT
     )
 
     if results:
