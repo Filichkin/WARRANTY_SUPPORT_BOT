@@ -27,7 +27,8 @@ from app.users.schemas import (
     SchemaUserRegister,
     SchemaUserAuth,
     SchemaUserRead,
-    ShchemaUserRoleUpdate
+    SchemaUserDataUpdate,
+    SchemaUserRoleUpdate
 )
 from app.users.service import UserService
 
@@ -98,6 +99,20 @@ async def get_me(user_data: User = Depends(get_current_user)):
     return user_data
 
 
+@router.get('/me/update', response_model=SchemaUserRead)
+async def update_me(
+    user_data: User = Depends(get_current_user),
+    data: SchemaUserDataUpdate = Depends(SchemaUserDataUpdate),
+):
+    updates = {}
+    updates['dealer_code'] = data.dealer_code
+    updates['email'] = data.email
+    updates['phone_number'] = data.phone_number
+    await UsersDAO.update(filter_by={'id': user_data.id}, **updates)
+    user_updated = await UsersDAO.find_one_or_none_by_id(user_data.id)
+    return user_updated
+
+
 @router.get('/all_users/')
 async def get_all_users(
     user_data: User = Depends(get_current_super_admin_user)
@@ -105,12 +120,13 @@ async def get_all_users(
     return await UsersDAO.find_all()
 
 
-@router.post('/user/update', response_model=SchemaUserRead)
-async def update_user(
-    data: ShchemaUserRoleUpdate = Depends(ShchemaUserRoleUpdate),
-    user_data: User = Depends(get_current_user),
-    user_role: User = Depends(get_current_super_admin_user)
+@router.post('/user/{user_id}/update', response_model=SchemaUserRead)
+async def update_user_role(
+    user_id: int,
+    data: SchemaUserRoleUpdate = Depends(SchemaUserRoleUpdate),
+    user_role: User = Depends(get_current_super_admin_user),
 ):
+    user_data = await UsersDAO.find_one_or_none_by_id(user_id)
     data = await UserService.update_user_role(data, user_data)
     return data
 

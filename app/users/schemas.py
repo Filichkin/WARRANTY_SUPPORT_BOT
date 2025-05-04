@@ -68,8 +68,20 @@ class SchemaUserAuth(BaseModel):
         )
 
 
-class ShchemaUserRoleUpdate(BaseModel):
+class SchemaUserRoleUpdate(BaseModel):
     is_super_admin: bool
+
+
+class SchemaUserDataUpdate(BaseModel):
+    dealer_code: str
+    email: EmailStr = Field(
+        ...,
+        description='Электронная почта'
+        )
+    phone_number: str = Field(
+        ...,
+        description='Номер телефона, начинающийся с "+"'
+        )
 
 
 class SchemaUserRead(BaseModel):
@@ -77,5 +89,6 @@ class SchemaUserRead(BaseModel):
     first_name: str
     last_name: str
     dealer_code: str
+    phone_number: str
     is_user: bool
     is_super_admin: bool

@@ -1,7 +1,7 @@
 from app.users.dao import UsersDAO
 from app.users.models import User
 from app.users.schemas import (
-    ShchemaUserRoleUpdate,
+    SchemaUserRoleUpdate,
     SchemaUserRead
 )
 
@@ -19,10 +19,14 @@ class UserService:
         )
 
     @staticmethod
-    async def update_user_role(data: ShchemaUserRoleUpdate, user: User):
+    async def update_user_role(data: SchemaUserRoleUpdate, user: User):
         updates = {}
         if data.is_super_admin:
-            updates['is_super_admin'] = data.is_super_admin
+            updates['is_super_admin'] = True
+            updates['is_user'] = False
+        if not data.is_super_admin:
+            updates['is_super_admin'] = False
+            updates['is_user'] = True
         if updates:
             await UsersDAO.update(filter_by={'id': user.id}, **updates)
 
