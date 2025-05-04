@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
 from app.api.schemas import AskResponse, AskWithAIResponse
@@ -19,7 +19,7 @@ async def ask(
     results = await vectorstore.asimilarity_search(
         query=query.response,
         with_score=True,
-        k=10
+        k=3
     )
     formatted_results = []
     for doc, score in results:
@@ -29,3 +29,38 @@ async def ask(
             'similarity_score': score,
         })
     return {'results': formatted_results}
+
+
+@router.post('/ask_with_ai')
+async def ask_with_ai(
+    query: AskWithAIResponse,
+    vectorstore: ChromaVectorStore = Depends(get_vectorstore),
+    user_id: int = Depends(get_current_user),
+):
+    results = await vectorstore.asimilarity_search(
+        query=query.response, with_score=True, k=3
+    )
+
+    if results:
+        ai_context = '\n'.join([doc.page_content for doc, _ in results])
+        ai_store = ChatWithAI(provider=query.provider)
+
+        async def stream_response():
+            async for chunk in ai_store.astream_response(
+                ai_context,
+                query.response
+            ):
+                yield chunk
+
+        return StreamingResponse(
+            stream_response(),
+            media_type='text/plain',
+            headers={
+                'Content-Type': 'text/plain',
+                'Transfer-Encoding': 'chunked',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive',
+            },
+        )
+    else:
+        return {'response': 'Ничего не найдено'}

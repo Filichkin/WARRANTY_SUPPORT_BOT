@@ -36,7 +36,7 @@ class ChatWithAI:
             self.llm = ChatDeepSeek(
                 api_key=settings.DEEPSEEK_API_KEY,
                 model=settings.DEEPSEEK_MODEL_NAME,
-                temperature=0.7,
+                temperature=0.0,
             )
         elif provider == 'mistral':
             logger.info(
@@ -45,7 +45,7 @@ class ChatWithAI:
             self.llm = ChatMistralAI(
                 api_key=settings.MISTRAL_TOKEN,
                 model=settings.MISTRAL_MODEL_NAME,
-                temperature=0.7,
+                temperature=0.0,
             )
         else:
             logger.error(f'Неподдерживаемый провайдер: {provider}')
