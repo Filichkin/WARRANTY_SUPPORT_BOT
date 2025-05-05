@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from app.users.dependencies import get_optional_current_user
 
 
-router = APIRouter()
+router = APIRouter(tags=['Pages'])
 
 templates = Jinja2Templates(directory='app/templates')
 

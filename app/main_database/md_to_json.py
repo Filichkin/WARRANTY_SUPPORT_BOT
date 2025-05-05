@@ -20,9 +20,9 @@ def normalize_text(text: str) -> str:
     """
     if not isinstance(text, str):
         raise ValueError('Входной текст должен быть строкой')
-    text = re.sub(r'[^0-9a-zA-Zа-яА-Я]', ' ', text)
+    # text = re.sub(r'[^0-9a-zA-Zа-яА-Я]', ' ', text)
     # Удаление знаков препинания
-    text = PUNCTUATION_PATTERN.sub(' ', text)
+    # text = PUNCTUATION_PATTERN.sub(' ', text)
     # Удаление переносов строк и лишних пробелов
     text = WHITESPACE_PATTERN.sub(' ', text)
 
@@ -122,10 +122,10 @@ if __name__ == '__main__':
     try:
         process_all_markdown(
             input_folder=(
-                '/Users/alexeyfilichkin/MainDev/WARRANTY_SUPPORT_BOT/app/database/data/MD'
+                '/Users/alexeyfilichkin/MainDev/WARRANTY_SUPPORT_BOT/app/main_database/data/MD'
                 ),
             output_folder=(
-                '/Users/alexeyfilichkin/MainDev/WARRANTY_SUPPORT_BOT/app/database/data/JSON'
+                '/Users/alexeyfilichkin/MainDev/WARRANTY_SUPPORT_BOT/app/main_database/data/JSON'
             ),
         )
     except Exception as e:

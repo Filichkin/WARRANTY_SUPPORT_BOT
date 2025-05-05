@@ -8,7 +8,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from loguru import logger
 import torch
 
-from app.config import settings
+from config import settings
 
 
 def load_json_files(directory: str) -> List[Dict[str, Any]]:
