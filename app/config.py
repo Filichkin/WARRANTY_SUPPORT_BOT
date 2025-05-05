@@ -34,7 +34,7 @@ class Config(BaseSettings):
     POSTGRES_HOST: str
 
     model_config = SettingsConfigDict(
-        env_file='/Users/alexeyfilichkin/MainDev/WARRANTY_SUPPORT_BOT/.env'
+        env_file='../.env'
         )
 
 
