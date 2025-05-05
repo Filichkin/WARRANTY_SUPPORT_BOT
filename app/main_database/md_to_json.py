@@ -27,7 +27,7 @@ def normalize_text(text: str) -> str:
     text = WHITESPACE_PATTERN.sub(' ', text)
 
     # Приведение к нижнему регистру
-    return text.lower().strip()
+    return text
 
 
 def parse_markdown(md_path: str) -> Dict[str, Any]:

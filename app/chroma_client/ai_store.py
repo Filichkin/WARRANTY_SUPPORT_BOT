@@ -6,7 +6,7 @@ from langchain_mistralai import ChatMistralAI
 from loguru import logger
 
 from app.config import settings
-from app.constants import TEMPERATURE
+from app.constants import MAX_TOKENS, TEMPERATURE
 
 
 class ChatWithAI:
@@ -47,6 +47,7 @@ class ChatWithAI:
                 api_key=settings.MISTRAL_TOKEN,
                 model=settings.MISTRAL_MODEL_NAME,
                 temperature=TEMPERATURE,
+                max_tokens=MAX_TOKENS
             )
         else:
             logger.error(f'Неподдерживаемый провайдер: {provider}')
