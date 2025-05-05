@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 
-from app.api.schemas import AskResponse, AskWithAIResponse
+from app.chroma_client.schemas import AskResponse, AskWithAIResponse
 from app.chroma_client.ai_store import ChatWithAI
 from app.chroma_client.chroma_store import ChromaVectorStore, get_vectorstore
 from app.constants import SEARCH_COUNT

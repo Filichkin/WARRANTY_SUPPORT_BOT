@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from app.api.router import router as router_ai_agent
+from app.chroma_client.router import router as router_ai_agent
 from app.chroma_client.chroma_store import chroma_vectorstore
 from app.pages.router import router as router_pages
 from app.users.router import router as router_users

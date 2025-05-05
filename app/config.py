@@ -8,7 +8,7 @@ class Config(BaseSettings):
     BASE_DIR: str = os.path.abspath(os.path.join(os.path.dirname(__file__)))
     PARSED_JSON_PATH: str = os.path.join(
         BASE_DIR,
-        'main_database',
+        'database_utils',
         'data', 'JSON'
         )
     CHROMA_PATH: str = os.path.join(BASE_DIR, 'chroma_db')
