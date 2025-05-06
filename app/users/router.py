@@ -47,7 +47,7 @@ async def register_user(user_data: SchemaUserRegister) -> dict:
     user_dict = user_data.dict()
     user_dict['password'] = get_password_hash(user_data.password)
     await UsersDAO.add(**user_dict)
-    return {'message': 'Вы успешно зарегистрированы!'}
+    return {'message': 'Successeful registration!'}
 
 
 @router.post('/login/', summary='Create Access Token and Refresh Token')

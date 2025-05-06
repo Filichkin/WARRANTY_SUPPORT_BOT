@@ -11,7 +11,7 @@ router = APIRouter(tags=['Pages'])
 templates = Jinja2Templates(directory='app/templates')
 
 
-@router.get('/register/', response_class=HTMLResponse)
+@router.get('/auth/register/', response_class=HTMLResponse)
 async def registration_page(
     request: Request
 ):
