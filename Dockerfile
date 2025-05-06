@@ -1,4 +1,4 @@
-FROM python:3.12.2-slim
+FROM python:3.12.10-slim
 
 WORKDIR /app
 
@@ -7,9 +7,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt --no-cache-dir
 
 COPY . .
-
-COPY .env .
-
 
 EXPOSE 80
 
