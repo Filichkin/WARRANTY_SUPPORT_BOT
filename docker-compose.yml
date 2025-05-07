@@ -12,6 +12,7 @@ services:
     build:
       context: .
     container_name: warranty_bot
+    env_file: .env
     ports:
       - "8000:80"
     depends_on:

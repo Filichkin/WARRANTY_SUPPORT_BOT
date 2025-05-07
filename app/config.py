@@ -33,9 +33,7 @@ class Config(BaseSettings):
     POSTGRES_DB: str
     POSTGRES_HOST: str
 
-    model_config = SettingsConfigDict(
-        env_file='.env'
-        )
+    model_config = SettingsConfigDict()
 
 
 settings = Config()
