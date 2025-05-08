@@ -20,7 +20,7 @@ from app.users.auth import (
 from app.users.dao import UsersDAO
 from app.users.dependencies import (
     get_current_user,
-    get_current_super_admin_user
+    get_admin_user
 )
 from app.users.models import User
 from app.users.schemas import (
@@ -119,7 +119,7 @@ async def update_me(
 
 @router.get('/all_users/')
 async def get_all_users(
-    user_data: User = Depends(get_current_super_admin_user)
+    user_data: User = Depends(get_admin_user)
 ):
     return await UsersDAO.find_all()
 
@@ -128,7 +128,7 @@ async def get_all_users(
 async def update_user_role(
     user_id: int,
     data: SchemaUserRoleUpdate = Depends(SchemaUserRoleUpdate),
-    user_role: User = Depends(get_current_super_admin_user),
+    user_role: User = Depends(get_admin_user),
 ):
     user_data = await UsersDAO.find_one_or_none_by_id(user_id)
     data = await UserService.update_user_role(data, user_data)
@@ -138,7 +138,7 @@ async def update_user_role(
 @router.get('/user/{user_id}', response_model=SchemaUserRead)
 async def get_user(
     user_id: int,
-    user_data: User = Depends(get_current_super_admin_user)
+    user_data: User = Depends(get_admin_user)
 ):
     user = await UsersDAO.find_one_or_none_by_id(user_id)
     data = UserService.get_user_dto(user)
