@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastadmin import fastapi_app as admin_app
 from fastapi.staticfiles import StaticFiles
 
 from app.chroma_client.router import router as router_ai_agent
@@ -20,3 +21,4 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+app.mount('/admin', admin_app)
