@@ -1,8 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastadmin import fastapi_app as admin_app
-from fastadmin import register
-from fastadmin import SqlAlchemyModelAdmin
+from fastadmin import register, SqlAlchemyModelAdmin
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 
@@ -11,7 +10,7 @@ from app.chroma_client.chroma_store import chroma_vectorstore
 from app.pages.router import router as router_pages
 from app.users.models import User
 from app.users.router import router as router_users
-from database import async_session_maker
+from app.database import async_session_maker
 
 
 @register(User, sqlalchemy_sessionmaker=async_session_maker)
@@ -41,9 +40,9 @@ async def lifespan(app: FastAPI):
     app.include_router(router_users)
     app.include_router(router_pages)
     app.mount('/static', StaticFiles(directory='app/static'), name='static')
+    app.mount('/admin/', admin_app)
     yield
     await chroma_vectorstore.close()
 
 
 app = FastAPI(lifespan=lifespan)
-app.mount('/admin', admin_app)
