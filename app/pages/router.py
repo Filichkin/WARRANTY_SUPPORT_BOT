@@ -4,7 +4,6 @@ from fastapi.templating import Jinja2Templates
 
 from app.users.dao import UsersDAO
 from app.users.dependencies import (
-    get_admin_user,
     get_optional_current_user
 )
 
@@ -51,17 +50,3 @@ async def chat_page(
         return templates.TemplateResponse('index.html', {'request': request})
     else:
         return RedirectResponse(url='/auth/login/')
-
-
-@router.get('/admin/', response_class=HTMLResponse)
-async def admin_page(
-    request: Request,
-    user: int = Depends(get_admin_user),
-):
-    if user:
-        return templates.TemplateResponse(
-            '/admin/index.html',
-            {'request': request}
-            )
-    else:
-        return RedirectResponse(url='/')

@@ -1,29 +1,26 @@
-from fastapi_admin.app import app
-from fastapi_admin.resources import Model
-from fastapi_admin.widgets import filters
+from fastadmin import fastapi_app as admin_app
+from fastadmin import register, SqlAlchemyModelAdmin
+from sqlalchemy import select
 
+from app.database import async_session_maker
 from app.users.models import User
 
 
-@app.register
-class UserResource(Model):
-    label = 'Users'
-    model = User
-    fields = [
-        'id',
-        'phone_number',
-        'first_name',
-        'last_name',
-        'dealer_code',
-        'email',
-        'password'
-    ]
-    filters = [
-        filters.Search(
-            name='dealer_code',
-            label='Dealer code',
-            search_mode='contains',
-            placeholder='Search by Dealer code',
-        ),
-        filters.Date(name='created_at', label='CreatedAt'),
-    ]
+@register(User, sqlalchemy_sessionmaker=async_session_maker)
+class UserAdmin(SqlAlchemyModelAdmin):
+    list_display = ('id', 'first_name', 'last_name', 'email', 'is_super_admin')
+    list_display_links = ('id', 'email')
+
+    async def authenticate(self, email, password):
+        sessionmaker = self.get_sessionmaker()
+        async with sessionmaker() as session:
+            query = select(self.model_cls).filter_by(
+                email=email,
+                password=password,
+                is_super_admin=True
+                )
+            result = await session.scalars(query)
+            user = result.first()
+            if not user:
+                return None
+            return user.id
