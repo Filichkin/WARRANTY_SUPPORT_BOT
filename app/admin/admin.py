@@ -1,8 +1,8 @@
-from fastadmin import fastapi_app as admin_app
 from fastadmin import register, SqlAlchemyModelAdmin
-from sqlalchemy import select
 
 from app.database import async_session_maker
+from app.users.auth import verify_password
+from app.users.dao import UsersDAO
 from app.users.models import User
 
 
@@ -12,15 +12,10 @@ class UserAdmin(SqlAlchemyModelAdmin):
     list_display_links = ('id', 'email')
 
     async def authenticate(self, email, password):
-        sessionmaker = self.get_sessionmaker()
-        async with sessionmaker() as session:
-            query = select(self.model_cls).filter_by(
-                email=email,
-                password=password,
-                is_super_admin=True
-                )
-            result = await session.scalars(query)
-            user = result.first()
-            if not user:
-                return None
-            return user.id
+        user = await UsersDAO.find_one_or_none(email=email)
+        if not user:
+            return None
+        if not verify_password(password, user.password):
+            return None
+        print(user.id)
+        return user.id
