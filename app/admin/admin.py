@@ -14,11 +14,16 @@ class UserAdmin(SqlAlchemyModelAdmin):
         'first_name',
         'last_name',
         'dealer_code',
+        'email'
+        'phone_number'
         'is_user',
         'is_super_admin',
-        'created_at'
+        'created_at',
+        'updated_at'
         )
     list_display_links = ('id',)
+    list_filter = ('id', 'last_name', 'is_super_admin', 'dealer_code')
+    search_fields = ('last_name', 'dealer_code',)
 
     async def authenticate(self, email, password):
         user = await UsersDAO.find_one_or_none(
