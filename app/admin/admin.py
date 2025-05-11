@@ -21,5 +21,4 @@ class UserAdmin(SqlAlchemyModelAdmin):
             return None
         if not verify_password(password, user.password):
             return None
-        print(user.id)
         return user.id
