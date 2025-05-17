@@ -1,6 +1,8 @@
+from app.users.auth import get_password_hash
 from app.users.dao import UsersDAO
 from app.users.models import User
 from app.users.schemas import (
+    SchemaUserPasswordUpdate,
     SchemaUserRoleUpdate,
     SchemaUserRead
 )
@@ -27,6 +29,17 @@ class UserService:
         if not data.is_super_admin:
             updates['is_super_admin'] = False
             updates['is_user'] = True
+        if updates:
+            await UsersDAO.update(filter_by={'id': user.id}, **updates)
+
+        user_updated = await UsersDAO.find_one_or_none_by_id(user.id)
+        return user_updated
+
+    @staticmethod
+    async def update_user_password(data: SchemaUserPasswordUpdate, user: User):
+        updates = {}
+        if data.password:
+            updates['password'] = get_password_hash(data.password)
         if updates:
             await UsersDAO.update(filter_by={'id': user.id}, **updates)
 

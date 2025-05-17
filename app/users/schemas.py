@@ -72,6 +72,15 @@ class SchemaUserRoleUpdate(BaseModel):
     is_super_admin: bool
 
 
+class SchemaUserPasswordUpdate(BaseModel):
+    password: str = Field(
+        ...,
+        min_length=5,
+        max_length=50,
+        description='Пароль, от 5 до 50 знаков'
+        )
+
+
 class SchemaUserDataUpdate(BaseModel):
     dealer_code: str
     email: EmailStr = Field(
