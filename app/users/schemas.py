@@ -73,7 +73,13 @@ class SchemaUserRoleUpdate(BaseModel):
 
 
 class SchemaUserPasswordUpdate(BaseModel):
-    password: str = Field(
+    old_password: str = Field(
+        ...,
+        min_length=5,
+        max_length=50,
+        description='Пароль, от 5 до 50 знаков'
+        )
+    new_password: str = Field(
         ...,
         min_length=5,
         max_length=50,

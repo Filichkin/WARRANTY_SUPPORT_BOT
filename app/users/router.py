@@ -16,6 +16,7 @@ from app.users.auth import (
     create_access_token,
     create_refresh_token,
     get_password_hash,
+    verify_password,
 )
 from app.users.dao import UsersDAO
 from app.users.dependencies import (
@@ -28,6 +29,7 @@ from app.users.schemas import (
     SchemaUserAuth,
     SchemaUserRead,
     SchemaUserDataUpdate,
+    SchemaUserPasswordUpdate,
     SchemaUserRoleUpdate
 )
 from app.users.service import UserService
@@ -113,6 +115,26 @@ async def update_me(
     updates['email'] = data.email
     updates['phone_number'] = data.phone_number
     await UsersDAO.update(filter_by={'id': user_data.id}, **updates)
+    user_updated = await UsersDAO.find_one_or_none_by_id(user_data.id)
+    return user_updated
+
+
+@router.post('/me/update_password', response_model=SchemaUserRead)
+async def update_password(
+    user_data: User = Depends(get_current_user),
+    data: SchemaUserPasswordUpdate = Depends(SchemaUserPasswordUpdate),
+):
+    updates = {}
+    if (
+            verify_password(
+                plain_password=data.old_password,
+                hashed_password=user_data.password
+                )
+            and data.new_password
+    ):
+        updates['password'] = get_password_hash(data.new_password)
+    if updates:
+        await UsersDAO.update(filter_by={'id': user_data.id}, **updates)
     user_updated = await UsersDAO.find_one_or_none_by_id(user_data.id)
     return user_updated
 

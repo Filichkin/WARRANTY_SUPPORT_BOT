@@ -1,4 +1,4 @@
-from app.users.auth import get_password_hash
+from app.users.auth import get_password_hash, verify_password
 from app.users.dao import UsersDAO
 from app.users.models import User
 from app.users.schemas import (
@@ -38,8 +38,14 @@ class UserService:
     @staticmethod
     async def update_user_password(data: SchemaUserPasswordUpdate, user: User):
         updates = {}
-        if data.password:
-            updates['password'] = get_password_hash(data.password)
+        if (
+            verify_password(
+                plain_password=data.old_password,
+                hashed_password=user.password
+                )
+            and data.new_password
+        ):
+            updates['password'] = get_password_hash(data.new_password)
         if updates:
             await UsersDAO.update(filter_by={'id': user.id}, **updates)
 
