@@ -146,11 +146,11 @@ dmypy.json
 .mypy_cache
 
 # папки со статикой и медиа
-static/
 posts/static/
 media/
 data/
 chroma_db/
+utils/
 
 commands.txt
 
