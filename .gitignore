@@ -147,7 +147,6 @@ dmypy.json
 
 # папки со статикой и медиа
 posts/static/
-media/
 data/
 chroma_db/
 utils/
