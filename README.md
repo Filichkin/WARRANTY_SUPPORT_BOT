@@ -13,12 +13,12 @@
 
 ## Приложение
 
-<img src="media/registration.png" width="800" height: auto>
-<img src="media/login.png" width="800" height: auto>
-<img src="media/assistant.png" width="800" height: auto>
-<img src="media/admin.png" width="800" height: auto>
+<img src="media/registration.png" width="400" height: auto>
+<img src="media/login.png" width="400" height: auto>
+<img src="media/assistant.png" width="400" height: auto>
+<img src="media/admin.png" width="400" height: auto>
 
-## Развёртывание
+## Развертывание
 
 Для развертывания проекта используйте Docker. Убедитесь, что у вас установлены Docker и Docker Compose. Выполните следующие команды:
 
